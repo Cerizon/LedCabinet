@@ -15,7 +15,7 @@ const char* password = "123789456";
 
 // ESP8266
 // #define SENSOR 6
-#define SENSOR D4
+#define SENSOR 4
 
 int flag;
 
@@ -40,18 +40,19 @@ void setup() {
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
   pinMode(SENSOR,INPUT);
+  flag = digitalRead(SENSOR);
 }
 
 void loop() {
   unsigned int sensor = digitalRead(SENSOR);
-  if( sensor ){
+  if( sensor && (flag == 0) ){
     httpRequest(OpenBody);
     flag = 1;
   }else if( !sensor && (flag == 1) ){
     httpRequest(CloseBody);
     flag = 0;
   }
-  delay(1000);
+  delay(400);
    
 }
 
